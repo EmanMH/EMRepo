@@ -17,3 +17,29 @@ var socketServer = io.listen(webServer, {"log level":1});
 
 // Start EasyRTC server
 var rtc = easyrtc.listen(httpApp, socketServer);
+
+easyrtc.on("getIceConfig", function(connectionObj, callback) {
+  
+    // This object will take in an array of XirSys STUN and TURN servers
+    var iceConfig = [];
+ 
+    request({ 
+        url: 'https://service.xirsys.com/ice',
+        qs: {
+            ident: "emanmh",
+            secret: "7a0fbaf6-dcc9-11e5-a5bc-37e3bb81d07f",
+            domain: "rtcsignaling.com",
+            application: "rtcsignaling",
+            room: "rtcroom",
+            secure: 1
+        }
+    },
+    function (error, response, body) {
+        if (!error &amp;&amp; response.statusCode == 200) {
+            // body.d.iceServers is where the array of ICE servers lives
+            iceConfig = body.d.iceServers;  
+            console.log(iceConfig);
+            callback(null, iceConfig);
+        }
+    });
+});
