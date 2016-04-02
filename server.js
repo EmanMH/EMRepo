@@ -1,5 +1,5 @@
 // Load required modules
-var http    = require("http");              // http server core module
+var http    = require("https");              // http server core module
 var express = require("express");           // web framework external module
 var io      = require("socket.io");         // web socket external module
 var easyrtc = require("easyrtc");           // EasyRTC external module
@@ -13,10 +13,10 @@ var port = process.env.PORT || 8080;
 var webServer = http.createServer(httpApp).listen(port);
 
 // Start Socket.io so it attaches itself to Express server
-var socketServer = io.listen(webServer);
+var socketServer = io.listen(webServer, {"log level":1});
 
 // Start EasyRTC server
-var easyrtcServer = easyrtc.listen(httpApp, socketServer);
+var rtc= easyrtc.listen(httpApp, socketServer);
 
 
 
