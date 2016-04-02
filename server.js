@@ -9,12 +9,12 @@ var httpApp = express();
 httpApp.use(express.static(__dirname + "/static/"));
 
 // Start Express http server on port 8080
-var port = process.env.PORT || 8080;
-var webServer = http.createServer(httpApp).listen(port);
+//var port = process.env.PORT || 8080; 
+var webServer = http.createServer(httpApp).listen(443);
 
 // Start Socket.io so it attaches itself to Express server
-var socketServer = io.listen(webServer, {"log level":1});
+var socketServer = io.listen(webServer);
 
 // Start EasyRTC server
-var rtc = easyrtc.listen(httpApp, socketServer);
+var easyrtcServer = easyrtc.listen(httpApp, socketServer);
 
